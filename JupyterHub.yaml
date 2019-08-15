@@ -28,7 +28,7 @@ parameters:
   value: jupyterhub
   required: true
 - name: JUPYTERHUB_IMAGE
-  value: jupyterhub:3.1.0
+  value: quay.io/jupyteronopenshift/jupyterhub:3.1.0
   required: true
 - name: BUILDER_IMAGE
   value: quay.io/jupyteronopenshift/s2i-minimal-notebook-py35:2.2.2
@@ -76,21 +76,12 @@ objects:
     labels:
       build: "${JUPYTERHUB_NAME}"
   spec:
-    triggers:
-    - type: ConfigChange
-    - type: ImageChange
-    source:
-      type: Git
-      git:
-        uri: "${GIT_REPOSITORY_URL}"
-        ref: "${GIT_REFERENCE}"
-      contextDir: "${CONTEXT_DIR}"
     strategy:
       type: Source
       sourceStrategy:
         from:
-          kind: ImageStreamTag
-          name: "${BUILDER_IMAGE}"
+          kind: DockerImage
+          name: "${JUPYTERHUB_IMAGE}"
     output:
       to:
         kind: ImageStreamTag
@@ -103,33 +94,16 @@ objects:
     labels:
       app: "${APPLICATION_NAME}"
   spec:
-    triggers:
-    - type: ConfigChange
-    - type: ImageChange
-    source:
-      type: Git
-      git:
-        uri: "${GIT_REPOSITORY_URL}"
-        ref: "${GIT_REFERENCE}"
-      contextDir: "${CONTEXT_DIR}"
     strategy:
       type: Source
       sourceStrategy:
         from:
-          kind: ImageStreamTag
-          name: "${BUILDER_IMAGE}"
+          kind: DockerImage
+          name: "${NOTEBOOK_IMAGE}"
     output:
       to:
         kind: ImageStreamTag
         name: "${APPLICATION_NAME}-nb:latest"
-- kind: ConfigMap
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-cfg"
-    labels:
-      app: "${APPLICATION_NAME}"
-  data:
-    jupyterhub_config.py: "${JUPYTERHUB_CONFIG}"
 - kind: ServiceAccount
   apiVersion: v1
   metadata:
@@ -149,6 +123,7 @@ objects:
     apiGroup: rbac.authorization.k8s.io
     kind: ClusterRole
     name: edit
+
 - kind: DeploymentConfig
   apiVersion: apps.openshift.io/v1
   metadata:
@@ -158,17 +133,6 @@ objects:
   spec:
     strategy:
       type: Recreate
-    triggers:
-    - type: ConfigChange
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-        - wait-for-database
-        - jupyterhub
-        from:
-          kind: ImageStreamTag
-          name: "${JUPYTERHUB_IMAGE}"
     replicas: 1
     selector:
       app: "${APPLICATION_NAME}"
@@ -277,6 +241,7 @@ objects:
     resources:
       requests:
         storage: 1Gi
+
 - kind: DeploymentConfig
   apiVersion: apps.openshift.io/v1
   metadata:
@@ -386,6 +351,7 @@ objects:
     apiGroup: rbac.authorization.k8s.io
     kind: ClusterRole
     name: edit
+
 - kind: DeploymentConfig
   apiVersion: apps.openshift.io/v1
   metadata:
@@ -395,17 +361,6 @@ objects:
   spec:
     strategy:
       type: Recreate
-    triggers:
-    - type: ConfigChange
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-        - wait-for-database
-        - jupyterhub
-        from:
-          kind: ImageStreamTag
-          name: "${JUPYTERHUB_IMAGE}"
     replicas: 1
     selector:
       app: "${APPLICATION_NAME}"
