@@ -4,11 +4,11 @@ apiVersion: template.openshift.io/v1
 labels:
   template: JupyterHub
 metadata:
-  name: JupyterHub
+  name: jupyterhub
   annotations:
     openshift.io/display-name: JupyterHub
     description: Template for creating customised JupyterHub images.
-    iconClass: fad fa-book-open 
+    iconClass: fad fa-book-open
     openshift.io/provider-display-name: CSC-IT Center for Science Ltd.
     openshift.io/documentation-url: https://github.com/CSCfi/Jupyter-OpenShift/blob/master/README.md
     openshift.io/support-url: https://rahti.csc.fi/
@@ -25,10 +25,10 @@ parameters:
   value: jupyterhub
   required: true
 - name: JUPYTERHUB_IMAGE
-  value: quay.io/jupyteronopenshift/jupyterhub:3.1.0
+  value: quay.io/jupyteronopenshift/jupyterhub:latest
   required: true
 - name: BUILDER_IMAGE
-  value: quay.io/jupyteronopenshift/s2i-minimal-notebook-py35:2.2.2
+  value: quay.io/jupyteronopenshift/s2i-minimal-notebook-py35:latest
   required: true
 - name: JUPYTERHUB_CONFIG
   value: ''
