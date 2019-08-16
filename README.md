@@ -1,6 +1,6 @@
 # Jupyter-OpenShift
 
-This template deploys JupyterHub (https://jupyter.org/hub) in [Rahti](https://rahti.csc.fi/), CSC's Kubernetes cluster. JupyterHub makes it easier to host custom Jupyter notebooks. The default deployment uses latest Jupyter Hub & Jupyter notebooks (Python 3.5 variant) OpenShift compatible image hosted at quay.io. Other OpenShift compatible Jupyter Hub and/or notebook images for the deployment as well. The template creates JupyterHub, JupyterHub Database pod and a PVC for storing JupyterHub DB. A new Jupyter Notebook instance is spawned up in form of pod for each new user session. Jupyter notebook instances created use ephemeral storage.
+This template deploys [JupyterHub](https://jupyter.org/hub) in [Rahti](https://rahti.csc.fi/), CSC's Kubernetes cluster. JupyterHub makes it easier to host custom Jupyter notebooks. The default deployment uses latest Jupyter Hub & Jupyter notebooks (Python 3.5 variant) OpenShift compatible image hosted at quay.io. Other OpenShift compatible Jupyter Hub and/or notebook images for the deployment as well. The template creates JupyterHub, JupyterHub Database pod and a PVC for storing JupyterHub DB. A new Jupyter Notebook instance is spawned up in form of pod for each new user session. Jupyter notebook instances created use ephemeral storage.
 
 ## Usage
 
@@ -42,7 +42,7 @@ oc new-app -f Jupyter-OpenShift/Jupyter.yaml -p APPLICATION_NAME=skjupyter -p BU
 |Application Name	| Name of deployed JupyterHub application|
 |Jupyter Hub Image | OpenShift compatible Jupyter Hub image which should be used for deployment|
 |Notebook Image	| OpenShift compatible Jupyter Notebook image which should be used for deployment|
-|Jupyter Config |	Configuration file path for custom configurations. This [template] (https://github.com/jupyter-on-openshift/jupyterhub-quickstart/blob/4987215df80d36d42f8a68f2c7b8a166e69d3d9b/jupyterhub_config.py) should be followed for custom configurations|
+|Jupyter Config |	Configuration file path for custom configurations. This [template](https://github.com/jupyter-on-openshift/jupyterhub-quickstart/blob/4987215df80d36d42f8a68f2c7b8a166e69d3d9b/jupyterhub_config.py) should be followed for custom configurations|
 |Database Password|	Password for JupyterHub Database|
 |Cookie Secret|	Cookie secret for application |
 |Jupyter Hub Memory|	Amount of memory available to Jupyter Hub |
