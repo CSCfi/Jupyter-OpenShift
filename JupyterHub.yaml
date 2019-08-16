@@ -1,13 +1,19 @@
 ---
 kind: Template
 apiVersion: template.openshift.io/v1
+labels:
+  template: JupyterHub
 metadata:
-  name: jupyterhub-builder
+  name: JupyterHub
   annotations:
-    openshift.io/display-name: JupyterHub Builder
+    openshift.io/display-name: JupyterHub
     description: Template for creating customised JupyterHub images.
-    iconClass: icon-python
+    iconClass: fad fa-book-open 
+    openshift.io/provider-display-name: CSC-IT Center for Science Ltd.
+    openshift.io/documentation-url: https://github.com/CSCfi/Jupyter-OpenShift/blob/master/README.md
+    openshift.io/support-url: https://rahti.csc.fi/
     tags: python,jupyter,jupyterhub
+
 parameters:
 - name: JUPYTERHUB_NAME
   value: custom-jupyterhub
@@ -15,15 +21,6 @@ parameters:
 - name: BUILDER_IMAGE
   value: jupyterhub:3.1.0
   required: true
-- name: GIT_REPOSITORY_URL
-  value: https://github.com/jakevdp/PythonDataScienceHandbook
-  required: true
-- name: GIT_REFERENCE
-  value: master
-  required: true
-- name: CONTEXT_DIR
-  value: ''
-  required: false
 - name: APPLICATION_NAME
   value: jupyterhub
   required: true
